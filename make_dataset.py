@@ -148,4 +148,4 @@ if __name__ == "__main__":
     aihub_test.store_gt(args.output)
 
     print('remove gt with no annotation')
-    deleted_gt = remove_no_gt(os.path.join(args.aihub, 'gt'))
+    deleted_gt = remove_no_gt(os.path.join(args.output, 'gt'))
