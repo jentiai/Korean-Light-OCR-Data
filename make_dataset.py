@@ -11,11 +11,11 @@ from utils.rotate import check_word_include_char, generate_rbox
 DEFAULT_AIHUB_ANNOTATION_FILE = 'textinthewild_data_info.json'
 
 class AihubTest:
-    def __init__(self, aihub_path, test_list_path, rotate=True, margin=5):
+    def __init__(self, aihub_path, test_list_path, margin=5):
         self.aihub_json = json.load(open(os.path.join(aihub_path, DEFAULT_AIHUB_ANNOTATION_FILE), 'r', encoding='UTF8'))
         self.test_list_file = open(os.path.join(test_list_path, 'aihub_test_image_list.txt'), 'r', encoding='UTF8')
 
-        self.aihub_test_dict, self.aihub_word_list, self.aihub_char_list, self.aihub_ignored_list = defaultdict(list), defaultdict(list), defaultdict(list), defaultdict(list)
+        self.aihub_word_list, self.aihub_char_list, self.aihub_ignored_list = defaultdict(list), defaultdict(list), defaultdict(list)
 
         self.test_list = []
         for line in self.test_list_file.readlines():
@@ -23,7 +23,7 @@ class AihubTest:
 
         print('initialization...')
         for anno in self.aihub_json['annotations']:
-            self.aihub_test_dict[anno['image_id']].append(anno)
+            # self.aihub_test_dict[anno['image_id']].append(anno)
             if anno['attributes']['class'] == 'character':
                 self.aihub_char_list[anno['image_id']].append(anno)
             elif anno['attributes']['class'] == 'word':
@@ -31,10 +31,9 @@ class AihubTest:
             elif anno['attributes']['class'] == 'ignored':
                 self.aihub_ignored_list[anno['image_id']].append(anno)
 
-        if rotate:
-            print(f'make rotate annotations with margin {margin}...')
-            for image in self.aihub_json['images']:
-                self.add_rotated_boxes(image['id'], margin)
+        print(f'make rotate annotations with margin {margin}...')
+        for image in self.aihub_json['images']:
+            self.add_rotated_boxes(image['id'], margin)
 
     def add_rotated_boxes(self, img_id, margin):
         anno_words = self.aihub_word_list[img_id]
@@ -91,16 +90,13 @@ class AihubTest:
             file.write('\n')
 
 
-    def store_gt(self, gt_path, rotate):
+    def store_gt(self, gt_path):
         os.makedirs(os.path.join(gt_path, 'gt'), exist_ok=True)
 
         for image in self.aihub_json['images']:
             if image['file_name'] in self.test_list:
                 rf = open(os.path.join(gt_path, 'gt/{}.txt'.format(image['file_name'].split('.jpg')[0])), 'w', encoding='UTF8')
-                if rotate:
-                    self.make_rotate_gt(image['id'], rf)
-                else:
-                    self.make_general_gt(image['id'], rf)
+                self.make_rotate_gt(image['id'], rf)
                 rf.close()
 
 if __name__ == "__main__":
@@ -108,12 +104,11 @@ if __name__ == "__main__":
     parser.add_argument('--aihub', '-a', type=str, default = './', help='aihub images path')
     parser.add_argument('--list_path', '-l', type=str, default = './', help='aihub test image list txt file path')
     parser.add_argument('--output', '-o', type=str, default = './', help='output path')
-    parser.add_argument('--rotate', action='store_true')
     parser.add_argument('--margin', type=int, default=5)
     args = parser.parse_args()
 
-    aihub_test = AihubTest(args.aihub, args.list_path, args.rotate, args.margin)
+    aihub_test = AihubTest(args.aihub, args.list_path, args.margin)
 
     print('make gt files...')
-    aihub_test.store_gt(args.aihub, args.rotate)
+    aihub_test.store_gt(args.aihub)
     # make_test_image(args.aihub, args.list_path, args.output)
