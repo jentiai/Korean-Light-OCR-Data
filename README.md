@@ -11,14 +11,41 @@
 * 10 만장의 이미지 파일 중 카테고리 별로 10%씩 테스트셋으로 뽑아 사용했습니다.
 
 ## 2. AIHUB 테스트 이미지 분리
-* AIHUB 테스트 이미지 분리를 위해선 다음을 수행합니다.
 * 코드 실행 전 AIHUB 이미지의 압축은 모두 풀려있어야 합니다.
+* 압축 해제 후 데이터 디렉토리 구조는 다음과 같습니다.
+```
+AIHUB
+  |---book
+  |     |---000334C2A3FCD51B5C2F5AE7DE872A7C.jpg
+  |     |---0008D5F549FE35B36BF92091E2D01646.jpg
+  |                        .
+  |                        .
+  |---Goods
+  |     |---00024467863E82F72B18598125DAE6B5.jpg
+  |     |---000B7167D8521139AE0DF9B387C034D5.jpg
+  |                        .
+  |                        .
+  |---Singboard
+  |     |---0003053D121A0074B66CA75DCD51C8F3.jpg
+  |     |---000AD252F19F62A9055C2CB8864B07E8.jpg
+  |                        .
+  |                        .
+  |---Traffic_Sign
+  |     |---000D6985A1C98F0549F53FEE4FA556B8.jpg
+  |     |---001353D4CEF660E0C1F54B40FB4469B3.jpg
+  |                        .
+  |                        .
+  |
+  |---textinthewild_data_info.json
+```
+
+* AIHUB 테스트 이미지 분리를 위해선 다음을 수행합니다.
 * AIHUB 테스트 이미지 리스트는 dataset/aihub_test_image_list.txt에 있습니다.
 * output 폴더는 aihub 디렉토리와 다른 곳으로 지정해야합니다.
 ```
 python make_dataset.py --aihub [path/to/image] --list_path [path/to/list/txt] --output [path/to/output]
 ```
-* `--aihub`: aihub 이미지 및 json 파일 디렉토리 (모든 카테고리의 상위 폴더, 모든 압축을 푼 상태)
+* `--aihub`: aihub 이미지 및 json 파일 디렉토리 (모든 카테고리의 상위 폴더(위의 디렉토리 구조에서 AIHUB), 모든 압축을 푼 상태)
 * `--list_path`: aihub 테스트 이미지를 정리한 리스트 파일 경로
 * `--output`: aihub 테스트 이미지 및 GT를 저장할 디렉토리 경로
 
