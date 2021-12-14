@@ -1,7 +1,7 @@
 import numpy as np
 import copy
 from scipy.spatial import ConvexHull
-from aihub_utils.sort_point import check_vertical, sort_4_point_h, sort_4_point_v
+from utils.sort_point import check_vertical, sort_4_point_h, sort_4_point_v
 
 def points2minrect(points):
 
