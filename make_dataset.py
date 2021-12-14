@@ -7,7 +7,7 @@ import argparse
 
 from collections import defaultdict
 from utils.rotate import check_word_include_char, generate_rbox
-from utils.post_processor import remove_labels_no_image
+from utils.post_processor import remove_labels_no_image, remove_no_gt
 
 DEFAULT_AIHUB_ANNOTATION_FILE = 'textinthewild_data_info.json'
 
@@ -110,29 +110,6 @@ class AihubTest:
                 self.make_rotate_gt(image['id'], rf)
                 rf.close()
 
-def remove_no_gt(parent_dir):
-    deleted_gt = []
-
-    for path, dir, files in os.walk(parent_dir):
-        if not files: continue
-
-        for name in files:
-            gt_path = os.path.join(path, name)
-
-            # remove duplicated name
-            if name == '00C6DD18C320D0A8E8E26AFA84AB5555.txt' or name == '00F3E524ED9EC2FFD20BC6156EDF5BE3.txt':
-                deleted_gt.append(gt_path)
-                os.remove(gt_path)
-                continue
-
-            # remove empty gt
-            with open(gt_path, "r", encoding="utf-8") as f:
-                lines = f.read()
-            if not lines:
-                deleted_gt.append(gt_path)
-                os.remove(gt_path)
-
-    return 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
