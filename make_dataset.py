@@ -11,7 +11,7 @@ from utils.rotate import check_word_include_char, generate_rbox
 DEFAULT_AIHUB_ANNOTATION_FILE = 'textinthewild_data_info.json'
 
 class AihubTest:
-    def __init__(self, aihub_path, test_list_path, margin=5):
+    def __init__(self, aihub_path, test_list_path, output, margin=5):
         self.aihub_json = json.load(open(os.path.join(aihub_path, DEFAULT_AIHUB_ANNOTATION_FILE), 'r', encoding='UTF8'))
         self.test_list_file = open(os.path.join(test_list_path, 'aihub_test_image_list.txt'), 'r', encoding='UTF8')
 
@@ -34,6 +34,16 @@ class AihubTest:
         print(f'make rotate annotations with margin {margin}...')
         for image in self.aihub_json['images']:
             self.add_rotated_boxes(image['id'], margin)
+
+        print(f'copy aihub test images...')
+        os.makedirs(os.path.join(output, 'aihub_test_image'))
+        for (path, dir, files) in os.walk(aihub_path):
+            files = list(files)
+            
+            for file in files:
+                if file in self.test_list:
+                    base_dir = os.path.join(output, 'aihub_test_image')
+                    shutil.copy(os.path.join(path, file), os.path.join(base_dir, file))
 
     def add_rotated_boxes(self, img_id, margin):
         anno_words = self.aihub_word_list[img_id]
@@ -104,11 +114,11 @@ if __name__ == "__main__":
     parser.add_argument('--aihub', '-a', type=str, default = './', help='aihub images path')
     parser.add_argument('--list_path', '-l', type=str, default = './', help='aihub test image list txt file path')
     parser.add_argument('--output', '-o', type=str, default = './', help='output path')
-    parser.add_argument('--margin', type=int, default=5)
     args = parser.parse_args()
 
-    aihub_test = AihubTest(args.aihub, args.list_path, args.margin)
+    margin = 5
+    aihub_test = AihubTest(args.aihub, args.list_path, args.output, margin)
 
     print('make gt files...')
-    aihub_test.store_gt(args.aihub)
+    aihub_test.store_gt(args.output)
     # make_test_image(args.aihub, args.list_path, args.output)
