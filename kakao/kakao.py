@@ -58,17 +58,17 @@ def main():
     if len(sys.argv) != 3:
         print("Please run with args: $ python example.py /path/to/image appkey")
     image_path, appkey = sys.argv[1], sys.argv[2]
-    image_name = (image_path.split('/')[-1]).split('.jpg')[0]
 
-    # resize_impath = kakao_ocr_resize(image_path)
-    # if resize_impath is not None:
-    #     image_path = resize_impath
-    #     print("원본 대신 리사이즈된 이미지를 사용합니다.")
+    json_dict = dict()
+    for (path, dir, files) in os.walk(image_path):
+        files = list(files)
 
-    output = kakao_ocr(image_path, appkey).json()
-    with open(os.path.join('./', '{}.json'.format(image_name)), 'w', encoding='utf-8') as result:
-        result.write(json.dumps(output, indent='\t', ensure_ascii=False))
-    # print("[OCR] output:\n{}\n".format(json.dumps(output, sort_keys=True, indent=2)))
+        for file in files:
+            output = kakao_ocr(os.path.join(path, file), appkey).json()
+            json_dict[file.split('.jpg')[0]] = output
+
+    with open('./kakao.json', 'w', encoding='UTF8') as result:
+        result.write(json.dumps(json_dict, indent='\t', ensure_ascii=False))
 
 
 if __name__ == "__main__":
