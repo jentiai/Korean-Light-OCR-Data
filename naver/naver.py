@@ -2,6 +2,7 @@ import json
 import base64
 import requests
 import sys
+import json
 
 import os
 
@@ -44,9 +45,16 @@ def main():
     image_path, api_url, api_key = sys.argv[1], sys.argv[2], sys.argv[3]
     image_name = (image_path.split('/')[-1]).split('.jpg')[0]
 
-    output = naver_ocr(image_path, api_url, api_key)
-    with open(os.path.join('./', '{}.json'.format(image_name)), 'w', encoding='utf-8') as result:
-        result.write(json.dumps(output, indent='\t', ensure_ascii=False))
+    json_dict = dict()
+    for (path, dir, files) in os.walk(image_path):
+        files = list(files)
+
+        for file in files:
+            output = naver_ocr(os.path.join(path, file), api_url, api_key)
+            json_dict[file.split('.jpg')[0]] = output
+
+    with open('./naver.json', 'w', encoding='UTF8') as result:
+        result.write(json.dumps(json_dict, indent='\t', ensure_ascii=False))
 
 
 if __name__ == "__main__":
