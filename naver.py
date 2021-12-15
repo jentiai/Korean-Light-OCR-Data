@@ -39,9 +39,7 @@ def naver_ocr(image_path, api_url, api_key):
 
 def main():
     if len(sys.argv) != 4:
-        print(
-            "Please run with args: $ python example.py /path/to/image api_url api_key"
-        )
+        print("Please run with args: $ python example.py /path/to/image api_url api_key")
     image_path, api_url, api_key = sys.argv[1], sys.argv[2], sys.argv[3]
     image_name = (image_path.split("/")[-1]).split(".jpg")[0]
 
