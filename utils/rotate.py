@@ -3,13 +3,14 @@ import copy
 from scipy.spatial import ConvexHull
 from utils.sort_point import check_vertical, sort_4_point_h, sort_4_point_v
 
+
 def points2minrect(points):
 
     result_poly = np.array(points)
-    pi2 = np.pi/2.
+    pi2 = np.pi / 2.0
 
-    #ConvexHull(result_poly).vertices -> result_poly에서 점을 찍을 꼭지점의 index
-    #hull_points -> result_poly[인덱스 값] -> 점 좌표
+    # ConvexHull(result_poly).vertices -> result_poly에서 점을 찍을 꼭지점의 index
+    # hull_points -> result_poly[인덱스 값] -> 점 좌표
 
     hull_points = result_poly[ConvexHull(result_poly).vertices]
 
@@ -54,24 +55,30 @@ def points2minrect(points):
 
     return rval.tolist()
 
-def check_word_include_char(bw, bc, margin=5):
-    wp = [bw[0], bw[1], bw[0]+bw[2], bw[1]+bw[3]]
-    cp = [bc[0], bc[1], bc[0]+bc[2], bc[1]+bc[3]]
 
-    if wp[0]-margin<cp[0] and wp[1]-margin<cp[1] and \
-            wp[2]+margin>cp[2] and wp[3]+margin>cp[3]:
+def check_word_include_char(bw, bc, margin=5):
+    wp = [bw[0], bw[1], bw[0] + bw[2], bw[1] + bw[3]]
+    cp = [bc[0], bc[1], bc[0] + bc[2], bc[1] + bc[3]]
+
+    if (
+        wp[0] - margin < cp[0]
+        and wp[1] - margin < cp[1]
+        and wp[2] + margin > cp[2]
+        and wp[3] + margin > cp[3]
+    ):
         return True
     else:
         return False
 
+
 def generate_rbox(anno_word, anno_chars_in_w):
     anno_rbox = copy.deepcopy(anno_word)
 
-    poly_points=[]
+    poly_points = []
     for anno in anno_chars_in_w:
-        [x, y, w, h] = anno['bbox']
-        #print(anno['bbox'])
-        poly = [[x,y], [x+w, y], [x+w, y+h], [x, y+h]]
+        [x, y, w, h] = anno["bbox"]
+        # print(anno['bbox'])
+        poly = [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]
         for j in poly:
             poly_points.append(j)
 
@@ -82,6 +89,6 @@ def generate_rbox(anno_word, anno_chars_in_w):
     else:
         new_rect = sort_4_point_h(rect)
     rect_list = np.reshape(new_rect, -1)
-    anno_rbox['poly'] = rect_list
-    anno_rbox['attributes']['class']='rbox'
+    anno_rbox["poly"] = rect_list
+    anno_rbox["attributes"]["class"] = "rbox"
     return anno_rbox

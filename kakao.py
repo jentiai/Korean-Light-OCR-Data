@@ -6,8 +6,9 @@ import sys
 import os
 
 LIMIT_PX = 1024
-LIMIT_BYTE = 1024*1024  # 1MB
+LIMIT_BYTE = 1024 * 1024  # 1MB
 LIMIT_BOX = 40
+
 
 def kakao_ocr_resize(image_path: str):
     """
@@ -42,14 +43,13 @@ def kakao_ocr(image_path: str, appkey: str):
     :param image_path: 이미지파일 경로
     :param appkey: 카카오 앱 REST API 키
     """
-    API_URL = 'https://dapi.kakao.com/v2/vision/text/ocr'
+    API_URL = "https://dapi.kakao.com/v2/vision/text/ocr"
 
-    headers = {'Authorization': 'KakaoAK {}'.format(appkey)}
+    headers = {"Authorization": "KakaoAK {}".format(appkey)}
 
     image = cv2.imread(image_path)
     jpeg_image = cv2.imencode(".jpg", image)[1]
     data = jpeg_image.tobytes()
-
 
     return requests.post(API_URL, headers=headers, files={"image": data})
 
@@ -65,10 +65,10 @@ def main():
 
         for file in files:
             output = kakao_ocr(os.path.join(path, file), appkey).json()
-            json_dict[file.split('.jpg')[0]] = output
+            json_dict[file.split(".jpg")[0]] = output
 
-    with open('./kakao.json', 'w', encoding='UTF8') as result:
-        result.write(json.dumps(json_dict, indent='\t', ensure_ascii=False))
+    with open("./kakao.json", "w", encoding="UTF8") as result:
+        result.write(json.dumps(json_dict, indent="\t", ensure_ascii=False))
 
 
 if __name__ == "__main__":
