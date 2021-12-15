@@ -54,6 +54,7 @@ output에 aihub_test_image, gt 로 테스트 이미지 및 gt 폴더가 생성�
 ## 3. API
 * 카카오 및 네이버 API 사용법 입니다.
 * AIHUB 테스트 이미지 전체의 결과를 하나의 json 파일로 생성합니다.
+* 카카오는 API 사용량 일 5000개 제한으로 초과 시 json 파일에 error가 작성됩니다.
 ```
 python kakao.py [path/to/image] [appkey]
 ```
