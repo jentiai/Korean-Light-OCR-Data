@@ -62,4 +62,4 @@
   python jenti.py [path/to/image]
   ```
 
-* 코드를 실행한 위치에 ``{kakao, naver, jenti}.json``가 생성됩니다. 저희 [평가 코드](https://github.com/jentiai/Korean-Light-OCR-API.git)를 통해 각 OCR API의 성능을 확인할 수 있습니다
+* 코드를 실행한 위치에 ``{kakao, naver, jenti}.json``가 생성됩니다. 저희 [평가 코드](https://github.com/jentiai/Korean-Light-OCR-API.git)를 통해 각 OCR API의 성능을 확인할 수 있습니다.
