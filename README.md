@@ -50,6 +50,8 @@
 ## 3. API
 * KaKao OCR API 및 Naver OCR API 사용법 입니다. 앞서 분리한 테스트 이미지 전체에 대한 각 API의 결과를 json 파일로 생성합니다. (Kakao OCR API의 경우 일일 사용 5000개 제한으로 초과 시 json 파일에 error가 작성됩니다.)
 
+  
+
   ```
   python kakao.py [path/to/image] [appkey]
   ```
@@ -60,4 +62,4 @@
   python jenti.py [path/to/image]
   ```
 
-* 코드를 실행한 위치에 ``{kakao, naver, jenti}.json``가 생성됩니다. 저희 [평가 코드](https://github.com/jentiai/Korean-Light-OCR-API.git)를 통해 각 OCR API의 성능을 확인할 수 있습니다. 
+* 코드를 실행한 위치에 ``{kakao, naver, jenti}.json``가 생성됩니다. 저희 [평가 코드](https://github.com/jentiai/Korean-Light-OCR-API.git)를 통해 각 OCR API의 성능을 확인할 수 있습니다
