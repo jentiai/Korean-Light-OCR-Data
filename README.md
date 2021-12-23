@@ -2,10 +2,6 @@
 
 ## 1. AIHUB 데이터셋
 
-| 도로교통표지판 | 상품 | 간판 | 기타 |
-| :-------------: | :---: | :---: | :---: |
-|![txtwild_data01](https://user-images.githubusercontent.com/72335925/145942175-f00badb1-542e-4f02-a9bf-a57632ae495e.png)|![txtwild_data02](https://user-images.githubusercontent.com/72335925/145942196-14444228-fab0-47a9-95ae-30106213fbab.png)|![txtwild_data03](https://user-images.githubusercontent.com/72335925/145942238-1e2b29dc-d022-4b63-8489-2413237a4aae.png)|![txtwild_data04](https://user-images.githubusercontent.com/72335925/145942247-d426244b-3af7-4884-bc21-2cc79322807d.png)
-
 * AIHUB에서 공개한 [한국어 글자체 이미지 데이터셋](https://aihub.or.kr/aidata/133) 중 Text in the Wild의 이미지/annotation을 사용했습니다. 각 도로교통표지판, 상품, 간판과 기타 카테고리로 분류됩니다.
 * 약 100,000개의 이미지/annotation 중에서 각 카테고리 별로 10% 씩 선별하여, 약 9,900개를 [모델 평가](https://github.com/jentiai/Korean-Light-OCR-API)에 사용하였습니다. 선별한 테스트 데이터 리스트는 dataset/aihub_test_image_list.txt에서 확인하실 수 있습니다.
 
